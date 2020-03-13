@@ -1,4 +1,5 @@
 data/jhu/*.csv
+web/plots
 
 # VSCode
 

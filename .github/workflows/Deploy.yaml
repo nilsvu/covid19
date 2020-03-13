@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+      - cron:  '0 5,12 * * *'
+
+jobs:
+  publish:
+    name: Deploy to gh-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Download data
+        run: |
+          sh data/jhu/download_data.sh
+      - name: Setup Python
+        uses: actions/setup-python@v1
+      - name: Install Python dependencies
+        run: |
+          pip install numpy pandas matplotlib
+      - name: Make plots
+        run: |
+          python scripts/make_plots.py
+          mv plots web/
+      - name: Push to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: web
+          enable_jekyll: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true

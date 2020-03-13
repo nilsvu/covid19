@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import datetime
 import locale
 import matplotlib.dates as mdates
-
-locale.setlocale(locale.LC_TIME, "de_DE")
+import logging
 
 
 def plot_germany_total(save_to=None):
@@ -68,6 +67,11 @@ def plot_states(save_to=None):
 
 
 if __name__ == "__main__":
+    try:
+        locale.setlocale(locale.LC_TIME, "de_DE")
+    except locale.Error:
+        logging.warning("Unable to set locale")
+
     import os
     os.makedirs('plots', exist_ok=True)
     plot_germany_total('plots/germany_total.svg')
