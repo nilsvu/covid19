@@ -1,3 +1,7 @@
 url: "https://nilsleiffischer.github.io"
 baseurl: "/covid19"
 title: "COVID-19 in Deutschland"
+
+# Analytics
+analytics_server: 'https://nfischr.de/analytics/'
+analytics_id: '2'

@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <title>{{ page.title }}</title>
     <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
+    {% if jekyll.environment == 'production' and site.analytics_server and site.analytics_id %}
+      {% include analytics.html %}
+    {% endif %}
   </head>
   <body>
     {{ content }}
