@@ -8,19 +8,6 @@ layout: default
 
 ![states](plots/states.svg)
 
-Aktualisiert: {{ 'now' | date: "%c" }}
+[Zu logarithmischer Skalierung wechseln](logscale.html)
 
-Datenquellen:
-
-- [Situationsberichte des Robert Koch Institut](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Gesamt.html)
-- [John Hopkins University](https://github.com/CSSEGISandData/COVID-19)
-
-Weitere informationen:
-
-- [Robert Koch Institut](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/nCoV.html)
-
----
-
-Author: [Nils L. Fischer](https://nilsleiffischer.de)
-
-GitHub: [nilsleiffischer/covid19](https://github.com/nilsleiffischer/covid19)
+{% include_relative footer.md %}

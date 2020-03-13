@@ -7,10 +7,11 @@ import matplotlib.dates as mdates
 import logging
 
 
-def plot_germany_total(save_to=None):
+def plot_germany_total(save_to=None, log=False):
     data = pd.read_csv(
         'data/jhu/time_series_19-covid-Confirmed.csv'
     ).set_index('Country/Region')
+    plt.clf()
 
     data_de = data.loc['Germany'].iloc[3:]
     data_de.index = pd.to_datetime(data_de.index)
@@ -37,11 +38,16 @@ def plot_germany_total(save_to=None):
     plt.title("COVID-19 Infektionen")
     plt.legend()
 
+    if log:
+        plt.yscale('log')
+
     if save_to:
         plt.savefig(save_to)
 
 
-def plot_states(save_to=None):
+def plot_states(save_to=None, log=False):
+    plt.clf()
+
     data_rki = pd.read_csv('data/rki/states_timeseries.csv').set_index(
         'Date')
     data_rki.index = pd.to_datetime(data_rki.index, dayfirst=True)
@@ -62,6 +68,9 @@ def plot_states(save_to=None):
     ax.xaxis.set_major_locator(mdates.DayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
 
+    if log:
+        plt.yscale('log')
+
     if save_to:
         plt.savefig(save_to)
 
@@ -75,4 +84,6 @@ if __name__ == "__main__":
     import os
     os.makedirs('plots', exist_ok=True)
     plot_germany_total('plots/germany_total.svg')
+    plot_germany_total('plots/germany_total_log.svg', log=True)
     plot_states('plots/states.svg')
+    plot_states('plots/states_log.svg', log=True)
