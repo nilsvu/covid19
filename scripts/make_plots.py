@@ -38,6 +38,8 @@ def plot_germany_total(save_to=None, log=False):
     plt.title("COVID-19 Infektionen")
     plt.legend()
 
+    plt.grid(color=(0.9, 0.9, 0.9), lw=1, axis='y')
+
     if log:
         plt.yscale('log')
 
@@ -67,6 +69,8 @@ def plot_states(save_to=None, log=False):
     ax = plt.gca()
     ax.xaxis.set_major_locator(mdates.DayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+
+    plt.grid(color=(0.9, 0.9, 0.9), lw=1, axis='y')
 
     if log:
         plt.yscale('log')
