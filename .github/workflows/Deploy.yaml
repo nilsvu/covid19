@@ -21,10 +21,10 @@ jobs:
         uses: actions/setup-python@v1
       - name: Install Python dependencies
         run: |
-          pip install numpy pandas matplotlib
+          pip install numpy pandas matplotlib pyyaml
       - name: Make plots
         run: |
-          python scripts/make_plots.py
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/make_plots.py
           mv plots web/
       - name: Push to gh-pages
         uses: peaceiris/actions-gh-pages@v3

@@ -1,0 +1,12 @@
+
+- Name: Italien
+  Dataset: Italy
+  ShiftDays: 8
+
+- Name: Spanien
+  Dataset: Spain
+  ShiftDays: 1
+
+- Name: Frankreich
+  Dataset: France (France)
+  ShiftDays: -1

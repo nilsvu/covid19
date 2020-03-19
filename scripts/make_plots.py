@@ -5,35 +5,36 @@ import datetime
 import locale
 import matplotlib.dates as mdates
 import logging
+import yaml
+from scripts.load_data import load_jhu_data
 
 
 def plot_germany_total(save_to=None, log=False):
-    data = pd.read_csv(
-        'data/jhu/time_series_19-covid-Confirmed.csv'
-    ).set_index('Country/Region')
+    data_jhu = load_jhu_data()
+
     plt.clf()
+    plt.figure(figsize=(10, 6))
 
-    data_de = data.loc['Germany'].iloc[3:]
-    data_de.index = pd.to_datetime(data_de.index)
+    max_timeshift = datetime.timedelta(days=0)
+    for timeshift_entry in yaml.safe_load(open('data/timeshifts.yaml', 'r')):
+        data_shifted = data_jhu[timeshift_entry['Dataset']].copy()
+        timeshift = datetime.timedelta(days=timeshift_entry['ShiftDays'])
+        data_shifted.index += timeshift
+        data_shifted.plot(marker='.',
+                          ls='-',
+                          label='{} {} {} Tage'.format(
+                              timeshift_entry['Name'],
+                              '+' if timeshift.days >= 0 else '-',
+                              abs(timeshift.days)),
+                          alpha=0.5)
+        max_timeshift = max(timeshift, max_timeshift)
 
-    data_it = data.loc['Italy'].iloc[3:]
-    data_it.index = pd.to_datetime(data_it.index)
+    data_jhu['Germany'].plot(marker='.',
+                             ls='-',
+                             color='black',
+                             label='Deutschland')
 
-    data_it_shifted = data_it.copy()
-    it_shift = datetime.timedelta(days=9)
-    data_it_shifted.index += it_shift
-
-    data_it_shifted.plot(marker='.',
-                         color='red',
-                         ls='-',
-                         label='Italien + {} Tage'.format(it_shift.days),
-                         alpha=0.5)
-    data_de.plot(marker='.',
-                 color='black',
-                 ls='-',
-                 figsize=(10, 6),
-                 label="Deutschland")
-    plt.xlim(datetime.date(2020, 2, 24), datetime.date.today() + it_shift)
+    plt.xlim(datetime.date(2020, 2, 24), datetime.date.today() + max_timeshift)
     plt.axvline(datetime.date.today(), color='black', alpha=0.2, lw=2)
     plt.title("COVID-19 Infektionen")
     plt.legend()
@@ -66,9 +67,6 @@ def plot_states(save_to=None, log=False):
     plt.xlim(data_rki.index[0],
              datetime.date.today() + datetime.timedelta(days=1))
     plt.axvline(datetime.date.today(), alpha=0.2, color='black', lw=3)
-    ax = plt.gca()
-    ax.xaxis.set_major_locator(mdates.DayLocator())
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
 
     plt.grid(color=(0.9, 0.9, 0.9), lw=1, axis='y')
 
