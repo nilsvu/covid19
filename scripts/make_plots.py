@@ -27,6 +27,9 @@ def plot_germany_total(save_to=None, log=False):
                               '+' if timeshift.days >= 0 else '-',
                               abs(timeshift.days)),
                           alpha=0.5)
+        plt.scatter(data_shifted.index[-1],
+                    data_shifted.values[-1],
+                    marker='o')
         max_timeshift = max(timeshift, max_timeshift)
 
     data_jhu['Germany'].plot(marker='.',
