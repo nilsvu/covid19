@@ -10,4 +10,6 @@ layout: default
 
 [Zu logarithmischer Skalierung wechseln](logscale.html)
 
+[When is it over? (Modelle und Vorhersagen)](whenisitover.html)
+
 {% include_relative footer.md %}

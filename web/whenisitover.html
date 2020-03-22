@@ -1,0 +1,51 @@
+---
+layout: default
+countries:
+  - Dataset: Germany
+    Label: Deutschland
+    Slug: de
+  - Dataset: Italy
+    Label: Italien
+    Slug: it
+  - Dataset: France (France)
+    Label: Frankreich
+    Slug: fr
+  - Dataset: Spain
+    Label: Spanien
+    Slug: sp
+---
+
+<h1>When is it over?</h1>
+
+{% for country in page.countries %}
+    {% assign filename = 'prediction_' | append: country.Slug %}
+    {% include plot.html filename=filename %}
+{% endfor %}
+
+
+<h3>Zugrundeliegendes Modell</h3>
+
+<p>
+Die Vorhersagen auf dieser Seite basieren auf einem einfachen logistischen
+Modell. Ich empfehle dieses Video für eine anschauliche Erklärung dieser Art von
+Modellen:
+<ul><li><a href="https://www.youtube.com/watch?v=Kas0tIxDvrg">Exponentielles Wachstum und Epidemien</a> von <a href="https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw">3Blue1Brown</a></li></ul>
+Mitgewirkt an der Entwicklung dieser Analyse hat <a href="https://github.com/lorenzsp">Lorenzo Speri</a>.
+Die Aussagen auf dieser Seite unterliegen den folgenden Annahmen:
+<ul>
+  <li>Der Ansteckungsverlauf verläuft <a href="https://de.wikipedia.org/wiki/Logistische_Funktion">logistisch</a>.</li>
+  <li>
+    Der angezeigte Fehlerbereich berechnet sich nur aus dem Fehler des logistischen Fits.
+    Für die Datenpunkte wird ein statistischer Fehler von \(\sqrt{N}\) angenommen.
+    Da diese Fehlerabschätzung unzureichend ist, wird zusätzlich die Prognose unter Auschluss des letzten Datenpunkts gezeigt um abzuschätzen, wie stark die Prognose variiert.
+  </li>
+  <li>Das in der Legende angezeigte Datum bezieht sich auf den Tag an dem weniger als zehn Neuansteckungen prognostiziert werden.</li>
+</ul>
+</p>
+
+<hr/>
+
+<a href="index.html">Aktuelle Situation in Deutschland</a>
+
+{% capture my_include %}{% include_relative footer.md %}{% endcapture %}
+{{ my_include | markdownify }}

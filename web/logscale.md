@@ -10,4 +10,6 @@ layout: default
 
 [Zu linearer Skalierung wechseln](index.html)
 
+[When is it over? (Modelle und Vorhersagen)](whenisitover.html)
+
 {% include_relative footer.md %}
