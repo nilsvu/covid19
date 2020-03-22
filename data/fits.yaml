@@ -1,0 +1,19 @@
+- Name: Deutschland
+  Dataset: Germany
+  Slug: de
+  FitOnset: 34
+
+- Name: Italien
+  Dataset: Italy
+  Slug: it
+  FitOnset: 30
+
+- Name: Spanien
+  Dataset: Spain
+  Slug: sp
+  FitOnset: 35
+
+- Name: Frankreich
+  Dataset: France (France)
+  Slug: fr
+  FitOnset: 35
