@@ -14,9 +14,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Download data
-        run: |
-          sh data/jhu/download_data.sh
       - name: Setup Python
         uses: actions/setup-python@v1
       - name: Install Python dependencies
