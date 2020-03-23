@@ -11,10 +11,15 @@ from scripts.plot import *
 
 
 if __name__ == "__main__":
-    try:
-        locale.setlocale(locale.LC_TIME, "de_DE")
-    except locale.Error:
-        logging.warning("Unable to set locale")
+    locale.setlocale(locale.LC_ALL, '')
+    if 'de_' not in locale.getlocale()[0]:
+        try:
+            locale.setlocale(locale.LC_ALL, "de_DE")
+            logging.debug("Set LC_ALL to 'de_DE'.")
+        except locale.Error:
+            logging.warning("Unable to set locale")
+    logging.debug("Using locale: LC_ALL={}, LC_TIME={}".format(
+        locale.getlocale(locale.LC_ALL), locale.getlocale(locale.LC_TIME)))
 
     import os
     os.makedirs('plots', exist_ok=True)

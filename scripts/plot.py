@@ -97,7 +97,7 @@ def plot_prediction(data, label, *args, save_to=None, **kwargs):
     ]
     plt.plot(t_prognosis_dates,
              logistic_deriv(t_prognosis, *popt_err),
-             label="Prognose gestern: {:%x}".format(date_end_lag))
+             label="Prognose gestern: {:%-d. %B %Y}".format(date_end_lag))
     plt.fill_between(t_prognosis_dates,
                      logistic_deriv(t_prognosis, popt_err[0], popt_err[1],
                                     popt_err[2] + sigma_err[2]),
@@ -106,7 +106,7 @@ def plot_prediction(data, label, *args, save_to=None, **kwargs):
                      alpha=0.3)
     plt.plot(t_prognosis_dates,
              logistic_deriv(t_prognosis, *popt),
-             label="Prognose heute: {:%x}".format(date_end))
+             label="Prognose heute: {:%-d. %B %Y}".format(date_end))
     plt.fill_between(t_prognosis_dates,
                      logistic_deriv(t_prognosis, popt[0], popt[1],
                                     popt[2] + sigma[2]),
@@ -117,11 +117,12 @@ def plot_prediction(data, label, *args, save_to=None, **kwargs):
     plt.ylabel('COVID-19 Neuansteckungen')
     plt.xlim(data.index[0], plot_end_date)
     plt.axvline(datetime.date.today(), color='black', alpha=0.2, lw=2)
-    plt.axvline(date_end_conservative,
-                color='black',
-                lw=1,
-                ls='dashed',
-                label="Pessimistisch: {:%x}".format(date_end_conservative))
+    plt.axvline(
+        date_end_conservative,
+        color='black',
+        lw=1,
+        ls='dashed',
+        label="Pessimistisch: {:%-d. %B %Y}".format(date_end_conservative))
     plt.axvline(datetime.date.today() +
                 datetime.timedelta(days=int(t_fit_first)),
                 color='black',

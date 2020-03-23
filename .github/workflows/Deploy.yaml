@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Configure locale
+        run: |
+          locale -a
+          sudo apt-get install language-pack-de
+          locale -a
       - name: Setup Python
         uses: actions/setup-python@v1
       - name: Install Python dependencies
@@ -21,7 +26,7 @@ jobs:
           pip install numpy scipy pandas matplotlib pyyaml
       - name: Make plots
         run: |
-          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/make_plots.py
+          LC_ALL="de_DE.utf8" PYTHONPATH="$GITHUB_WORKSPACE" python scripts/make_plots.py
           mv plots web/
       - name: Push to gh-pages
         uses: peaceiris/actions-gh-pages@v3
