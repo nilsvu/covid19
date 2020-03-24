@@ -14,6 +14,6 @@
   FitOnset: 35
 
 - Name: Frankreich
-  Dataset: France (France)
+  Dataset: France
   Slug: fr
   FitOnset: 35

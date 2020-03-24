@@ -8,9 +8,9 @@
   ShiftDays: 1
 
 - Name: Frankreich
-  Dataset: France (France)
+  Dataset: France
   ShiftDays: -1
 
 - Name: Großbritannien
-  Dataset: United Kingdom (United Kingdom)
+  Dataset: United Kingdom
   ShiftDays: -7

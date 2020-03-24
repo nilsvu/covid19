@@ -33,7 +33,7 @@ def apply_data_corrections(dataframe_confirmed_DF):
 
 def load_jhu_data():
     data = pd.read_csv(
-        'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv',
+        'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
         index_col=1)
     data = apply_data_corrections(data)
     data.index = data.index + (" (" + data['Province/State'] + ")").fillna("")
