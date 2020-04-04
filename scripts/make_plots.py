@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
     import os
     os.makedirs('plots', exist_ok=True)
+    plot_daily_new_cases('plots/daily_new_cases.svg')
     plot_timeshifts('plots/germany_total.svg')
     plot_timeshifts('plots/germany_total_log.svg', log=True)
     plot_german_states('plots/states.svg')

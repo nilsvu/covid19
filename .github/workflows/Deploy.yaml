@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-python@v1
       - name: Install Python dependencies
         run: |
-          pip install numpy scipy pandas matplotlib pyyaml
+          pip install numpy scipy pandas matplotlib pyyaml pycountry
       - name: Make plots
         run: |
           LC_ALL="de_DE.utf8" PYTHONPATH="$GITHUB_WORKSPACE" python scripts/make_plots.py

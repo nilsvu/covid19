@@ -1,11 +1,59 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.ticker import ScalarFormatter
 import datetime
 import yaml
 import numpy as np
 import pandas as pd
+import pycountry
+import gettext
 from .analyze import fit_model, get_logistic_date_end, logistic, logistic_deriv
 from .load_data import load_jhu_data
+
+
+def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=1e4):
+    data = load_jhu_data()
+    countries = data.columns[data.iloc[-1] >= min_total_cases]
+    german = gettext.translation('iso3166',
+                                 pycountry.LOCALES_DIR,
+                                 languages=['de'])
+
+    plt.clf()
+    plt.figure(figsize=(10, 7.5))
+    averaged_data_germany = None
+    for country in countries:
+        dataset = country
+        try:
+            found_country_data = pycountry.countries.search_fuzzy(country)
+            label = german.gettext(found_country_data[0].name)
+        except LookupError:
+            label = country
+        averaged_data = np.convolve(data[dataset], np.ones(average_over_days) / average_over_days, mode='valid')
+        if country == 'Germany':
+            style = dict(color='black', lw=2, alpha=1, zorder=100)
+            annotation_style = dict(bbox=dict(fc=(1, 1, 1, 0.8), ec=(0, 0, 0, 0.2), pad=2))
+            averaged_data_germany = averaged_data
+        else:
+            style = dict(color=None, lw=1, alpha=0.7, zorder=10)
+            annotation_style = {}
+        averaged_data_diff = np.diff(averaged_data)
+        plt.plot(averaged_data[1:], averaged_data_diff, label=label, **style)
+        plt.scatter(averaged_data[-1], averaged_data_diff[-1], color=style['color'], zorder=style['zorder'])
+        plt.annotate(label, xy=(averaged_data[-1], max(averaged_data_diff[-1], 1.1e2)),
+            textcoords='offset points', xytext=(8, 0), va='center', zorder=style['zorder'], **annotation_style)
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.title("Tägliche Neuansteckungen (Wochenmittelwert)")
+    plt.xlabel("Ansteckungen Gesamt")
+    plt.gca().xaxis.set_major_formatter(ScalarFormatter())
+    plt.gca().yaxis.set_major_formatter(ScalarFormatter())
+    germany_today = averaged_data_germany[-1] - averaged_data_germany[-2]
+    plt.axhline(germany_today, ls='dashed', color='lightgray', zorder=1)
+    plt.annotate("${:.0f}$ Neuansteckungen pro Tag (Mittel über {} Tage)".format(germany_today, average_over_days), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, 4), va='bottom', zorder=100)
+    plt.xlim(left=5e2)
+    plt.ylim(bottom=1e2)
+    if save_to:
+        plt.savefig(save_to)
 
 
 def plot_timeshifts(save_to=None, log=False):
