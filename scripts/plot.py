@@ -49,7 +49,8 @@ def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=1e4)
     plt.gca().yaxis.set_major_formatter(ScalarFormatter())
     germany_today = averaged_data_germany[-1] - averaged_data_germany[-2]
     plt.axhline(germany_today, ls='dashed', color='lightgray', zorder=1)
-    plt.annotate("${:.0f}$ Neuansteckungen pro Tag (Mittel über {} Tage)".format(germany_today, average_over_days), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, 4), va='bottom', zorder=100)
+    plt.annotate("${:.0f}$ Neuansteckungen pro Tag im Mittel über {} Tage".format(germany_today, average_over_days), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, 4), va='bottom', zorder=100)
+    plt.annotate("(${:.0f}$ Neuansteckungen am {:%-d. %B %Y})".format((data['Germany'].values[-1] - data['Germany'].values[-2]), data['Germany'].index[-1]), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, -4), va='top', zorder=100)
     plt.xlim(left=5e2)
     plt.ylim(bottom=1e2)
     if save_to:
