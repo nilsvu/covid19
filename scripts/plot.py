@@ -38,7 +38,8 @@ def plot_timeshifts(save_to=None, log=False):
 
     plt.xlim(datetime.date(2020, 2, 24), datetime.date.today() + max_timeshift)
     plt.axvline(datetime.date.today(), color='black', alpha=0.2, lw=2)
-    plt.title("COVID-19 Infektionen")
+    plt.title("Zeitversatz in Europa")
+    plt.ylabel("Ansteckungen Gesamt")
     plt.legend()
 
     plt.grid(color=(0.9, 0.9, 0.9), lw=1, axis='y')
@@ -56,7 +57,7 @@ def plot_german_states(save_to=None, log=False):
 
     plt.clf()
     plt.figure(figsize=(10, 6))
-    plt.title("COVID-19 Infektionen pro Bundesland")
+    plt.title("Ansteckungen pro Bundesland in Deutschland")
     for state in data_rki.columns[np.argsort(data_rki.iloc[-1])[::-1]]:
         data_rki[state].plot(marker='.', ls='-')
         plt.annotate(state, (data_rki.index[-1], data_rki[state][-1]),
@@ -64,8 +65,9 @@ def plot_german_states(save_to=None, log=False):
                      xytext=(8, 0),
                      bbox=dict(fc=(1, 1, 1, 0.5), ec=(1, 1, 1, 0), pad=2))
     plt.xlabel(None)
+    plt.ylabel("Ansteckungen Gesamt")
     plt.xlim(data_rki.index[0],
-             datetime.date.today() + datetime.timedelta(days=1))
+             datetime.date.today() + datetime.timedelta(days=3))
     plt.axvline(datetime.date.today(), alpha=0.2, color='black', lw=3)
 
     plt.grid(color=(0.9, 0.9, 0.9), lw=1, axis='y')
