@@ -1,7 +1,7 @@
 
 - Name: Italien
   Dataset: Italy
-  ShiftDays: 8
+  ShiftDays: 6
 
 - Name: Spanien
   Dataset: Spain
@@ -9,8 +9,8 @@
 
 - Name: Frankreich
   Dataset: France
-  ShiftDays: -1
+  ShiftDays: -4
 
 - Name: Großbritannien
   Dataset: United Kingdom
-  ShiftDays: -7
+  ShiftDays: -9
