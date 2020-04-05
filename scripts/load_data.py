@@ -20,7 +20,8 @@ def apply_data_corrections(dataframe_confirmed_DF):
         'Qatar|3/12/20': 262,
         'Singapore|3/12/20': 178,
         'United Kingdom|3/12/20': 1391,
-        'France|3/15/20': 5423
+        'France|3/15/20': 5423,
+        'France|4/04/20': 68605
     }
     for key in confirmed_fixes_dict.keys():
         country_to_be_fixed = key.split('|')[0]
