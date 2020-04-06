@@ -29,9 +29,9 @@ if __name__ == "__main__":
     plot_german_states('plots/states.svg')
     plot_german_states('plots/states_log.svg', log=True)
 
-    data_jhu = load_jhu_data()
+    data_cds = load_cds_data()['cases']
     for country in yaml.safe_load(open('data/fits.yaml')):
         plot_prediction(
-            data_jhu[country['Dataset']][country['FitOnset']:],
+            data_cds.loc[country['Dataset']],
             label=country['Name'],
             save_to='plots/prediction_{}.svg'.format(country['Slug']))
