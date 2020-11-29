@@ -12,15 +12,3 @@ def load_jhu_data():
     data = data.transpose()
     data.index = pd.to_datetime(data.index)
     return data
-
-
-def load_cds_data(level='country', upper_levels=()):
-    levels = ['country', 'state', 'county', 'city']
-    assert level in levels, "Invalid level '{}'. Available: {}".format(level, levels)
-    data = pd.read_csv(
-        'https://coronadatascraper.com/timeseries.csv',
-        index_col=['level'] + levels + ['date'],
-        parse_dates=['date'])
-    data = data.loc[(level,) + tuple(upper_levels)]
-    data.index = data.index.droplevel(levels[len(upper_levels) + 1:])
-    return data
