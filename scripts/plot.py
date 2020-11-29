@@ -7,11 +7,14 @@ import numpy as np
 import pandas as pd
 import pycountry
 import gettext
-from analyze import fit_model, get_logistic_date_end, logistic, logistic_deriv
-from load_data import load_jhu_data
+from .analyze import fit_model, get_logistic_date_end, logistic, logistic_deriv
+from .load_data import load_jhu_data
 
 
-def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=5e5):
+def plot_daily_new_cases(save_to=None,
+                         average_over_days=7,
+                         filter_min_total_cases=5e5,
+                         lim_min_total_cases=1e3):
     data = load_jhu_data()
     german = gettext.translation('iso3166',
                                  pycountry.LOCALES_DIR,
@@ -19,9 +22,10 @@ def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=5e5)
     plt.clf()
     plt.figure(figsize=(10, 7.5))
     averaged_data_germany = None
-    alpha_scale = np.log(data['Germany'].iloc[-1]) - np.log(min_total_cases)
+    alpha_scale = np.log(
+        data['Germany'].iloc[-1]) - np.log(filter_min_total_cases)
     for country, data_country in data.items():
-        if data_country.iloc[-1] < min_total_cases:
+        if data_country.iloc[-1] < filter_min_total_cases:
             continue
         try:
             found_country_data = pycountry.countries.search_fuzzy(country)
@@ -34,8 +38,13 @@ def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=5e5)
             annotation_style = dict(bbox=dict(fc=(1, 1, 1, 0.8), ec=(0, 0, 0, 0.2), pad=2))
             averaged_data_germany = averaged_data
         else:
-            style = dict(color=None, lw=1,
-                alpha=0.8 * max(0, min(1, (np.log(averaged_data[-1]) - np.log(min_total_cases)) / alpha_scale)),
+            style = dict(
+                color=None,
+                lw=1,
+                alpha=0.8 * max(
+                    0,
+                    min(1, (np.log(averaged_data[-1]) -
+                            np.log(filter_min_total_cases)) / alpha_scale)),
                 zorder=10)
             annotation_style = {}
         averaged_data_diff = np.diff(averaged_data)
@@ -53,9 +62,23 @@ def plot_daily_new_cases(save_to=None, average_over_days=7, min_total_cases=5e5)
     plt.gca().yaxis.set_major_formatter(ScalarFormatter())
     germany_today = averaged_data_germany[-1] - averaged_data_germany[-2]
     plt.axhline(germany_today, ls='dashed', color='lightgray', zorder=1)
-    plt.annotate("${:.0f}$ Neuansteckungen pro Tag im Mittel über {} Tage".format(germany_today, average_over_days), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, 4), va='bottom', zorder=100)
-    plt.annotate("(${:.0f}$ Neuansteckungen am {:%-d. %B %Y})".format((data['Germany'].values[-1] - data['Germany'].values[-2]), data['Germany'].index[-1]), xy=(5e2, germany_today), textcoords='offset points', xytext=(8, -4), va='top', zorder=100)
-    plt.xlim(left=1e4)
+    plt.annotate(
+        "${:.0f}$ Neuansteckungen pro Tag im Mittel über {} Tage".format(
+            germany_today, average_over_days),
+        xy=(lim_min_total_cases, germany_today),
+        textcoords='offset points',
+        xytext=(8, 4),
+        va='bottom',
+        zorder=100)
+    plt.annotate("(${:.0f}$ Neuansteckungen am {:%-d. %B %Y})".format(
+        (data['Germany'].values[-1] - data['Germany'].values[-2]),
+        data['Germany'].index[-1]),
+                 xy=(lim_min_total_cases, germany_today),
+                 textcoords='offset points',
+                 xytext=(8, -4),
+                 va='top',
+                 zorder=100)
+    plt.xlim(left=lim_min_total_cases)
     plt.ylim(bottom=1e2)
     if save_to:
         plt.savefig(save_to)

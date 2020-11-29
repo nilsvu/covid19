@@ -6,8 +6,8 @@ import locale
 import matplotlib.dates as mdates
 import logging
 import yaml
-from load_data import load_jhu_data
-from plot import *
+from .load_data import load_jhu_data
+from .plot import *
 
 
 if __name__ == "__main__":

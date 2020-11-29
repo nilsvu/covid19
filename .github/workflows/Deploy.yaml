@@ -27,7 +27,7 @@ jobs:
           pip install numpy scipy pandas matplotlib pyyaml pycountry
       - name: Make plots
         run: |
-          LC_ALL="de_DE.utf8" PYTHONPATH="$GITHUB_WORKSPACE" python scripts/make_plots.py
+          LC_ALL="de_DE.utf8" PYTHONPATH="$GITHUB_WORKSPACE" python -m scripts.make_plots
           mv plots web/
       - name: Push to gh-pages
         uses: peaceiris/actions-gh-pages@v3
